@@ -1,6 +1,8 @@
 namespace ShapesApp.Library
 {
-    public class Rectangle
+    // this class has implementations for all the members declared
+    // in the IShape interface.
+    public class Rectangle : IShape
     {
         public double Length { get; set; }
         public double Width { get; set; }
@@ -13,6 +15,14 @@ namespace ShapesApp.Library
             {
                 return Length * Width;
             }
+        }
+
+        // shorthand for one-line get-only property
+        public int Sides => 4;
+
+        public double GetPerimeter()
+        {
+            return Length * 2 + Width * 2;
         }
 
         public int Dimensions
