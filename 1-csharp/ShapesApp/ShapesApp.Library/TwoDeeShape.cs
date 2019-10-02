@@ -2,6 +2,7 @@ namespace ShapesApp.Library
 {
     public abstract class TwoDeeShape : IShape
     {
+        // int IShape2.Dimensions => 3; // "explicit interface implementation"
         public int Dimensions => 2;
 
         // in an abstract class, you don't have to provide
