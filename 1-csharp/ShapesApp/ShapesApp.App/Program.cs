@@ -35,6 +35,19 @@ namespace ShapesApp.App
 
             // PrintRectangle(rectangle);
             rectangle.PrintRectangle();
+
+            double radius;
+            do
+            {
+                Console.WriteLine("Enter a radius:");
+                input = Console.ReadLine();
+            } while (!double.TryParse(input, out radius));
+
+            ColorCircle colorCircle = new ColorCircle(radius: radius, color: "black");
+
+            Console.WriteLine(colorCircle.GetPerimeter());
+
+            Console.WriteLine(ShapeDetails(colorCircle));
         }
 
         // extension method
@@ -43,12 +56,12 @@ namespace ShapesApp.App
         {
             Console.WriteLine($"{r.Length}x{r.Width} rectangle ({ShapeDetails(r)})");
             10.ToString();
-            int thirtythree = 10.Triple();
+            int thirtythree = 10.Triple(3);
         }
 
         public static string ShapeDetails(IShape shape)
         {
-            return $"area {shape.Area}, {shape.Sides}";
+            return $"area {shape.Area}, perimeter {shape.GetPerimeter()}, {shape.Sides}";
         }
 
         public static int Triple(this int number, int plus = 0)

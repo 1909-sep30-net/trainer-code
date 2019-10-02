@@ -1,0 +1,40 @@
+class Circle
+{
+    private ShapeHelper _helper;
+
+    private double _radius;
+
+    public double Radius
+    {
+        get => _radius;
+        set
+        {
+            SemiMajorAxis = value;
+            SemiMinorAxis = value;
+        }
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        new Circle().SemiNajorAxis = 4;
+    }
+
+    static void PrintCircleStuff(Ellipse e)
+    {
+        e.SemiMajorAxis
+        //...
+    }
+}
+
+class Ellipse
+{
+    private ShapeHelper _helper;
+
+    public double SemiMajorAxis { get; set; }
+    public double SemiMinorAxis { get; set; }
+}
+
+"prefer composition to inheritance"
