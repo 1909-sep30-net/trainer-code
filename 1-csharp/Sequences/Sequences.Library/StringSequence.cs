@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Sequences.Library
@@ -27,7 +28,10 @@ namespace Sequences.Library
 
         public string LongestString()
         {
-            return null;
+            // foreach loop is available on any class that implements the IEnumerable interface
+            // LINQ is available on any IEnumerable also
+            var maxLength = _list.Max(s => s.Length);
+            return _list.First(s => s.Length == maxLength);
         }
     }
 }
