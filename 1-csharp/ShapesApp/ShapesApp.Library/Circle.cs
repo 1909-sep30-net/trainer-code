@@ -2,7 +2,7 @@ using System;
 
 namespace ShapesApp.Library
 {
-    public class Circle : IShape
+    public class Circle : TwoDeeShape
     {
         // constructor
         public Circle(double radius)
@@ -10,17 +10,15 @@ namespace ShapesApp.Library
             Radius = radius;
             // now there can't be a circle without setting the radius
         }
+        public override int Sides => 0;
 
-        public int Dimensions => 2;
-        public int Sides => 0;
-
-        public double Area => Math.PI * Radius * Radius;
+        public override double Area => Math.PI * Radius * Radius;
 
         public double Radius { get; set; }
 
         // "expression-body syntax" for methods
         // just a shorter way to write a one-line method with a return.
-        public virtual double GetPerimeter() => 2 * Math.PI * Radius;
+        public override double GetPerimeter() => 2 * Math.PI * Radius;
 
         // non0virtual methods cannot be overridden
     }
