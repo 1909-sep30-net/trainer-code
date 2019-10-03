@@ -13,12 +13,17 @@ namespace Delegates
         // C# lets you subscribe event handler delegates to events.
 
         // the type for handling the event:
+        // the event member, one distinct event per instance of this class
         public delegate void MovieFinishedHandler();
         // defines a delegate type for void-return and zero-parameters.
         // this describes the shape of functions that can subscribe to this event i'm about to define.
 
-        // the event member, one distinct event per instance of this class
-        public event MovieFinishedHandler MovieFinished;
+        public delegate void MovieFinishedHandlerWithDetails(string name);
+
+        //public event MovieFinishedHandlerWithDetails MovieFinished;
+
+        // with Func and Action, i no longer need a delegate type to define the event
+        public event Action<string> MovieFinished;
 
         public void PlayMovie()
         {
@@ -32,9 +37,11 @@ namespace Delegates
             // weird issue - if there are no subscribers, the event is kind of "null"
             //if (MovieFinished != null)
             //{
-            //    MovieFinished();
+            //    MovieFinished(CurrentMovie);
             //}
-            MovieFinished?.Invoke(); // does same thing as above code - do nothing if no subscribers
+            MovieFinished?.Invoke(CurrentMovie); // does same thing as above code - do nothing if no subscribers
+
+            // when you invoke the event, you have ot pass it the parameters the handlers want
         }
     }
 }
