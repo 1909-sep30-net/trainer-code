@@ -30,6 +30,7 @@ namespace Serialization
 
         public static List<Person> DeserializeXmlFromFile(string xmlFilePath)
         {
+            // XmlSerializer serialization can be configured on the serializer object
             var serializer = new XmlSerializer(typeof(List<Person>));
 
             FileStream fileStream = null;

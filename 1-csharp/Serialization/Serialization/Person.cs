@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace Serialization
 {
@@ -9,8 +10,12 @@ namespace Serialization
     // "DTO" data transfer object
     public class Person
     {
+        [XmlAttribute]
         public int Id { get; set; }
+
+        [XmlElement(ElementName = "FirstName")]
         public string Name { get; set; }
+
         public Address Address { get; set; }
     }
 }
