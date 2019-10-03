@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
@@ -8,7 +9,7 @@ namespace Serialization
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             // "" strings you need to escape some characters with \
             // @"" strings you don't
@@ -18,28 +19,38 @@ namespace Serialization
             //var data = GetInitialData();
 
             //var data = DeserializeXmlFromFile(xmlFilePath);
-            var data = DeserializeJsonFromFile(jsonFilePath);
+            //List<Person> data = DeserializeJsonFromFileAsync(jsonFilePath).Result; // synchronously waits
+            List<Person> data = await DeserializeJsonFromFileAsync(jsonFilePath);
 
             ModifyData(data);
 
             //SerializeXmlToFile(xmlFilePath, data);
-            SerializeJsonToFile(jsonFilePath, data);
+            //SerializeJsonToFileAsync(jsonFilePath, data).Wait(); // synchronously waiting for the Task to complete
+            await SerializeJsonToFileAsync(jsonFilePath, data);
         }
 
-        public static void SerializeJsonToFile(string jsonFilePath, List<Person> data)
+        public static async Task SerializeJsonToFileAsync(string jsonFilePath, List<Person> data)
         {
             // we will do this with JSON.NET aka Newtonsoft Json
             // we use NuGet to get these dependencies
             string json = JsonConvert.SerializeObject(data);
 
             // exceptions should be handled here, ignored for sake of time
-            File.WriteAllText(jsonFilePath, json);
+            await File.WriteAllTextAsync(jsonFilePath, json);
+
+            // switching from sync to async:
+            // 1. call the async version of whatever method is going to access network/disk/other slow thing.
+            // 2. await the task returned by that method
+            // 3. add the async modifier to your method
+            // 4. make your method return a Task
+            // 5. add "Async" suffix to the name of your method.
+            // (6. repeat from step 1 on up to any callers of your method)
         }
 
-        public static List<Person> DeserializeJsonFromFile(string jsonFilePath)
+        public static async Task<List<Person>> DeserializeJsonFromFileAsync(string jsonFilePath)
         {
             // exceptions should be handled here, ignored for sake of time
-            string json = File.ReadAllText(jsonFilePath);
+            string json = await File.ReadAllTextAsync(jsonFilePath);
 
             var data = JsonConvert.DeserializeObject<List<Person>>(json);
 
@@ -107,6 +118,10 @@ namespace Serialization
                 // the implicit dispose will happen at the end of the current block
                 using var fileStream = new FileStream(xmlFilePath, FileMode.Create);
 
+                // to make this async, i would load the file contents asynchronously into 
+                // a memorystream, then give the serializer that memorystream
+
+                // xmlserializer doesnt directly have async support
                 serializer.Serialize(fileStream, data);
             }
             catch (IOException ex)
