@@ -83,7 +83,7 @@ namespace Delegates
             //}
 
             // LINQ is not JUST that... LINQ can also be converted to SQL, other kinds of data sources
-            data.
+            //data.
         }
 
         static void PrintMovieOver()
