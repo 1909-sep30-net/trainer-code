@@ -10,12 +10,15 @@ namespace Serialization
     // "DTO" data transfer object
     public class Person
     {
-        [XmlAttribute]
-        public int Id { get; set; }
+        private int _id;
 
-        [XmlElement(ElementName = "FirstName")]
+        [XmlAttribute] // will do "Id="15"" instead of "<Id>15</Id>"
+        public int Id { get => _id; set => _id = value; }
+
+        [XmlElement(ElementName = "FirstName")] // change the name of the element used in the XML
         public string Name { get; set; }
 
+        //[XmlIgnore] hide this property from XMLSerializer entirely
         public Address Address { get; set; }
     }
 }
