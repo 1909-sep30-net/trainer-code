@@ -4,13 +4,18 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace Serialization
 {
     public class Program
     {
+        private static ILogger _logger = null;
+
         public static async Task Main(string[] args)
         {
+            _logger = ConfigureLogger();
+
             // "" strings you need to escape some characters with \
             // @"" strings you don't
             var xmlFilePath = @"C:\revature\persons.xml";
@@ -27,6 +32,16 @@ namespace Serialization
             //SerializeXmlToFile(xmlFilePath, data);
             //SerializeJsonToFileAsync(jsonFilePath, data).Wait(); // synchronously waiting for the Task to complete
             await SerializeJsonToFileAsync(jsonFilePath, data);
+        }
+
+        public static ILogger ConfigureLogger()
+        {
+            var logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .WriteTo.File(@"C:\revature\logs.log")
+                .MinimumLevel.Warning()
+                .CreateLogger();
+            return logger;
         }
 
         public static async Task SerializeJsonToFileAsync(string jsonFilePath, List<Person> data)
@@ -49,8 +64,19 @@ namespace Serialization
 
         public static async Task<List<Person>> DeserializeJsonFromFileAsync(string jsonFilePath)
         {
-            // exceptions should be handled here, ignored for sake of time
-            string json = await File.ReadAllTextAsync(jsonFilePath);
+            // Serilog supports "structured logging"
+            _logger.Information("Loading JSON from file {file}", jsonFilePath);
+
+            string json;
+            try
+            {
+                json = await File.ReadAllTextAsync(jsonFilePath);
+            }
+            catch (IOException ex)
+            {
+                _logger.Error(ex, "Exception while trying to read file {file}", jsonFilePath);
+                return null;
+            }
 
             var data = JsonConvert.DeserializeObject<List<Person>>(json);
 
