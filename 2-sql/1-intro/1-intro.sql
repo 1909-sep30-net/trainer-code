@@ -60,3 +60,36 @@ SELECT
     FirstName + ' ' + LastName AS [Full Name],
     LEN(FirstName + ' ' + LastName) AS [Length]
 FROM Employee;
+
+-- SELECT statement has several "clauses"
+
+-- SELECT clause specifies what columns to have in the result set
+-- FROM clause specifies what table to query
+-- WHERE clause defines a condition, filtering out rows that don't match
+-- GROUP BY clause aggregates multiple rows into one, if they have the same values
+--     for all the expressions in the group by list.
+-- HAVING clause defines a condition for filtering, but AFTER the group by.
+-- ORDER BY clause specifies the sort order of the result set.
+
+-- number of customers in DB
+SELECT COUNT(*)
+FROM Customer;
+
+SELECT *
+FROM Customer;
+
+-- duplicate first names across customers in alphabetical order
+SELECT FirstName, COUNT(*) AS DuplicateCount
+FROM Customer
+-- WHERE COUNT(*) > 1  <- not possible - WHERE runs before GROUP BY
+GROUP BY FirstName
+HAVING COUNT(*) > 1
+ORDER BY FirstName;
+
+-- logical order of operations to the SELECT statement
+-- 5. SELECT
+-- 1. FROM
+-- 2. WHERE
+-- 3. GROUP BY
+-- 4. HAVING
+-- 6. ORDER BY
