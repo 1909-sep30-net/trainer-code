@@ -45,6 +45,17 @@ WHERE g.Name = 'Rock';
 
 -- i don't care if there are albums without artists, or artists without tracks
 
--- another exaple of COALESCE
+-- another example of COALESCE
 SELECT FirstName + ' ' + LastName + ' (' + COALESCE(Company, 'N/A') + ')'
 FROM Customer;
+
+
+SELECT * FROM Employee
+-- "self join" is what some people call it when you join
+-- a table with itself
+
+-- show me every employee with manager
+SELECT emp.FirstName + ' ' + emp.LastName AS Employee,
+    man.FirstName + ' ' + man.LastName AS Manager
+FROM Employee AS man RIGHT JOIN Employee AS emp
+    ON man.EmployeeId = emp.ReportsTo;
