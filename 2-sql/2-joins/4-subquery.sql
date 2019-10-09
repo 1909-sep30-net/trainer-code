@@ -4,6 +4,13 @@
 -- we have some operators for subqueries --
 -- IN, NOT IN, EXISTS, ANY, ALL.
 
+-- bit contrived example of ALL:
+-- the artist who made the album with the longest title.
+SELECT * FROM Artist WHERE ArtistId = (
+    SELECT ArtistId FROM Album WHERE
+        LEN(Title) >= ALL(SELECT LEN(Title) FROM Album)
+);
+
 -- every track that has never been purchased.
 -- subquery version
 SELECT * FROM Track WHERE TrackId NOT IN (
