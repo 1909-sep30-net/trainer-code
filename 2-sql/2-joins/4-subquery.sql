@@ -1,4 +1,8 @@
 -- sometimes the most natural way to express a query
+-- is with a condition based on another query
+
+-- we have some operators for subqueries --
+-- IN, NOT IN, EXISTS, ANY, ALL.
 
 -- every track that has never been purchased.
 -- subquery version
