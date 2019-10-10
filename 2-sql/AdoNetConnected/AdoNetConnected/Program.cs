@@ -37,7 +37,7 @@ namespace AdoNetConnected
             {
                 using var connection = new SqlConnection(connectionString);
                 // 1. open the connection
-                connection.Open();
+                async connection.OpenAsync();
                 using DbCommand command = new SqlCommand("SELECT * FROM Pokemon;", connection);
                 // 2. execute your query
                 using DbDataReader reader = await command.ExecuteReaderAsync();
