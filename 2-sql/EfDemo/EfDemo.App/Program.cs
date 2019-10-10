@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Linq;
+using AdoNetConnected;
+using EfDemo.DataAccess.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace EfDemo.App
 {
@@ -27,7 +31,28 @@ namespace EfDemo.App
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            string connectionString = SecretConfiguration.ConnectionString;
+
+            DbContextOptions<PokemonDbContext> options = new DbContextOptionsBuilder<PokemonDbContext>()
+                .UseSqlServer(connectionString)
+                .Options;
+
+            using var context = new PokemonDbContext(options);
+
+            DisplayPokemon(context);
+        }
+
+        static void DisplayPokemon(PokemonDbContext context)
+        {
+            foreach (Pokemon pokemon in context.Pokemon)
+            {
+                string types = string.Join(", ", pokemon.PokemonType.Select(pt => pt.Type.Name));
+                if (types.Length == 0)
+                {
+                    types = "[none]";
+                }
+                Console.WriteLine($"Pokemon {pokemon.Name} (type {types})");
+            }
         }
     }
 }
