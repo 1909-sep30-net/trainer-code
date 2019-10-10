@@ -24,9 +24,11 @@ ALTER TABLE Poke.Pokemon ADD
 GO
 CREATE VIEW Poke.ActivePokemon AS
     SELECT * FROM Poke.Pokemon WHERE Active = 1;
+GO
 
 UPDATE Poke.ActivePokemon SET Active = 0
 WHERE PokemonId < 1002;
+GO
 
 SELECT * FROM Poke.ActivePokemon;
 SELECT * FROM Poke.Pokemon;
@@ -100,3 +102,65 @@ SELECT * FROM Poke.PokemonWithNameOfLength(8);
 -- they have "read-only" access.
 
 -- write a function that returns the initials of a customer based on his ID.
+GO
+CREATE FUNCTION CustomerInitials(@id INT)
+RETURNS NCHAR(2)
+AS
+BEGIN
+    RETURN (
+        SELECT SUBSTRING(FirstName, 1, 1) + SUBSTRING(LastName, 1, 1)
+        FROM Customer WHERE CustomerId = @id
+    );
+END
+GO
+SELECT dbo.CustomerInitials(20);
+-- FUNCTIONs support WITH SCHEMABINDING
+
+-- (stored) procedures are like functions, except you can
+-- modify the DB, and you can't run them except with the EXECUTE statement.
+-- also, they don't have return values, but they do have "out parameters"
+
+-- procedure to update all the datemodified values to the current time
+-- return the number of rows modified
+GO
+CREATE OR ALTER PROCEDURE Poke.UpdateAllDateModified(@param INT, @rowschanged INT OUTPUT)
+AS
+BEGIN
+    BEGIN TRY
+    IF (NOT EXISTS (SELECT * FROM Poke.Pokemon))
+    BEGIN
+        RAISERROR ('No data found in table', 15, 1);
+    END
+    SET @rowschanged = (SELECT COUNT(*) FROM Poke.Pokemon);
+    UPDATE Poke.Pokemon SET DateModified = GETDATE();
+    END TRY
+    BEGIN CATCH
+        PRINT 'Error'
+    END CATCH
+END
+GO
+
+DECLARE @result INT;
+EXECUTE Poke.UpdateAllDateModified 123, @result OUTPUT;
+SELECT @result;
+
+-- triggers
+-- some code that will run instead of or after
+-- you insert, update, or delete to a particular table.
+
+-- a trigger that automatically maintains the DateModified column
+-- for updates
+GO
+CREATE TRIGGER Poke.PokemonDateModified ON Poke.Pokemon
+AFTER UPDATE
+AS
+BEGIN
+    -- in a trigger, you have access to two special table-valued variables
+    -- called Inserted and Deleted.
+    UPDATE Poke.Pokemon SET DateModified = GETDATE()
+    WHERE PokemonId IN (SELECT PokemonId FROM Inserted);
+    -- recursion in triggers is off by default
+END
+
+SELECT * FROM Poke.Pokemon;
+UPDATE Poke.Pokemon SET Name = 'Charmander' WHERE PokemonId = 1001;
