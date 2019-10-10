@@ -59,7 +59,7 @@ namespace AdoNetConnected
                     Console.WriteLine("No data found");
                 }
                 // 4. close the connection
-                connection.Close();
+                await connection.CloseAsync();
                 // (because we're using "using declaration", the object is disposed at the end of the method anyway.)
             }
             catch (SqlException ex)
