@@ -56,6 +56,9 @@ namespace EfDemo.App
             using var context = new PokemonDbContext(options);
 
             DisplayPokemon(context);
+            AddNewPokemon(context);
+            EditAPokemon(context);
+            DeleteAPokemon(context);
         }
 
         static void DisplayPokemon(PokemonDbContext context)
@@ -71,6 +74,21 @@ namespace EfDemo.App
                 }
                 Console.WriteLine($"Pokemon {pokemon.Name} (type {types})");
             }
+        }
+
+        static void AddNewPokemon(PokemonDbContext context)
+        {
+
+        }
+
+        static void EditAPokemon(PokemonDbContext context)
+        {
+
+        }
+
+        static void DeleteAPokemon(PokemonDbContext context)
+        {
+
         }
     }
 }
