@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using AdoNetConnected;
 using EfDemo.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +28,16 @@ namespace EfDemo.App
          * 5. any time you change the structure of the tables (DDL), go to step 3.
          */
 
+
+
+        // Entity Framework configures itself at runtime
+        // from three sources -
+        // (1) OnModelConfiguring method (fluent API)
+        // (2) DataAnnotations attributes on the entity classes
+        // (3) conventions
+        //      - e.g.: if a type named "X" has a property named either "Id" or "XId",
+        //            it will be assumed to be the primary key
+
         static void Main(string[] args)
         {
             string connectionString = SecretConfiguration.ConnectionString;
@@ -44,6 +53,7 @@ namespace EfDemo.App
 
         static void DisplayPokemon(PokemonDbContext context)
         {
+            context.Pokemon.First();
             foreach (Pokemon pokemon in context.Pokemon)
             {
                 string types = string.Join(", ", pokemon.PokemonType.Select(pt => pt.Type.Name));
