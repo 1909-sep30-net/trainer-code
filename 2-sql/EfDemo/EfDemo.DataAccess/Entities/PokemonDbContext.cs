@@ -24,7 +24,7 @@ namespace EfDemo.DataAccess.Entities
             modelBuilder.Entity<Pokemon>(entity =>
             {
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__Pokemon__737584F6521F3A85")
+                    .HasName("UQ__Pokemon__737584F6682AE80D")
                     .IsUnique();
 
                 entity.Property(e => e.Name)
@@ -37,20 +37,18 @@ namespace EfDemo.DataAccess.Entities
                 entity.HasOne(d => d.Pokemon)
                     .WithMany(p => p.PokemonType)
                     .HasForeignKey(d => d.PokemonId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PokemonTy__Pokem__4F7CD00D");
+                    .HasConstraintName("FK__PokemonTy__Pokem__59063A47");
 
                 entity.HasOne(d => d.Type)
                     .WithMany(p => p.PokemonType)
                     .HasForeignKey(d => d.TypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PokemonTy__TypeI__5070F446");
+                    .HasConstraintName("FK__PokemonTy__TypeI__59FA5E80");
             });
 
             modelBuilder.Entity<Type>(entity =>
             {
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__Type__737584F66DEDF5BC")
+                    .HasName("UQ__Type__737584F6FFAC7FAF")
                     .IsUnique();
 
                 entity.Property(e => e.Name)

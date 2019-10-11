@@ -78,17 +78,67 @@ namespace EfDemo.App
 
         static void AddNewPokemon(PokemonDbContext context)
         {
+            // check if already exists
+            if (context.Pokemon.Any(p => p.Name == "Charmander"))
+            {
+                Console.WriteLine("Charmander already exists; not adding again");
+                return;
+            }
+            var charmander = new Pokemon
+            {
+                Name = "Charmander",
+                Height = 6,
+                Weight = 85
+            };
+            var fireType = context.Type.FirstOrDefault(t => t.Name == "Fire")
+                ?? new DataAccess.Entities.Type { Name = "Fire" };
+            charmander.PokemonType.Add(new PokemonType { Type = fireType });
+            context.Pokemon.Add(charmander);
 
+            // there are foreign key properties I have not connected up - that's fine
+            // there are navigation properties i have not connected up - that's also fine
+            context.SaveChanges();
         }
 
         static void EditAPokemon(PokemonDbContext context)
         {
+            // check if already exists
+            var charmander = context.Pokemon.FirstOrDefault(p => p.Name == "Charmander");
 
+            // if this dbcontext instance is tracking any objects already, you will see them
+            // connected to other objects even if you didn't not call include THAT time.
+
+            if (charmander is null)
+            {
+                Console.WriteLine("Charmander does not exist; not editing");
+                return;
+            }
+
+            charmander.Height += 100;
+
+            context.SaveChanges();
         }
 
         static void DeleteAPokemon(PokemonDbContext context)
         {
+            // check if already exists
+            var charmander = context.Pokemon.FirstOrDefault(p => p.Name == "charmander");
 
+            //IQueryable<int> queryableOfHeights = context.Pokemon.Where(p => p.Name.Length > 6).Select(p => p.Height);
+            //// IQueryable also uses deferred execution -- no SQL commands have been executed yet
+            //queryableOfHeights.ToList();
+
+            // if this dbcontext instance is tracking any objects already, you will see them
+            // connected to other objects even if you didn't not call include THAT time.
+
+            if (charmander is null)
+            {
+                Console.WriteLine("Charmander does not exist; not deleting");
+                return;
+            }
+
+            context.Pokemon.Remove(charmander);
+            context.SaveChanges();
         }
     }
 }
