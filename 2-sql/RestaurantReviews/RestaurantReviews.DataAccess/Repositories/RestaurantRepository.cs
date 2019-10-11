@@ -16,7 +16,7 @@ namespace RestaurantReviews.DataAccess.Repositories
     /// <remarks>
     /// This class ought to have better exception handling and logging.
     /// </remarks>
-    public class RestaurantRepository : IRestaurantRepository
+    public class RestaurantRepository : IRestaurantRepository, IDisposable
     {
         private readonly RestaurantReviewsDbContext _dbContext;
 
@@ -26,11 +26,14 @@ namespace RestaurantReviews.DataAccess.Repositories
         /// Initializes a new restaurant repository given a suitable restaurant data source.
         /// </summary>
         /// <param name="dbContext">The data source</param>
-        public RestaurantRepository(RestaurantReviewsDbContext dbContext) =>
+        public RestaurantRepository(RestaurantReviewsDbContext dbContext)
+        {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        }
 
         /// <summary>
-        /// Get all restaurants with deferred execution.
+        /// Get all restaurants with deferred execution,
+        /// including associated reviews.
         /// </summary>
         /// <returns>The collection of restaurants</returns>
         public IEnumerable<Library.Models.Restaurant> GetRestaurants(string search = null)
