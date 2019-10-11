@@ -2,6 +2,7 @@
 using System.Linq;
 using EfDemo.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace EfDemo.App
 {
@@ -38,12 +39,18 @@ namespace EfDemo.App
         //      - e.g.: if a type named "X" has a property named either "Id" or "XId",
         //            it will be assumed to be the primary key
 
+        public static readonly ILoggerFactory AppLoggerFactory = LoggerFactory.Create(builder =>
+        {
+            builder.AddConsole();
+        });
+
         static void Main(string[] args)
         {
             string connectionString = SecretConfiguration.ConnectionString;
 
             DbContextOptions<PokemonDbContext> options = new DbContextOptionsBuilder<PokemonDbContext>()
                 .UseSqlServer(connectionString)
+                .UseLoggerFactory(AppLoggerFactory)
                 .Options;
 
             using var context = new PokemonDbContext(options);
@@ -53,8 +60,9 @@ namespace EfDemo.App
 
         static void DisplayPokemon(PokemonDbContext context)
         {
-            context.Pokemon.First();
-            foreach (Pokemon pokemon in context.Pokemon)
+            foreach (Pokemon pokemon in context.Pokemon
+                .Include(p => p.PokemonType)
+                    .ThenInclude(pt => pt.Type))
             {
                 string types = string.Join(", ", pokemon.PokemonType.Select(pt => pt.Type.Name));
                 if (types.Length == 0)
