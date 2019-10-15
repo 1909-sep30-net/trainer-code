@@ -6,6 +6,7 @@
 <!-- is the HTML element. -->
 <html lang="en">
 <!-- the head element contains metadata about the page -->
+
 <head>
     <meta charset="UTF-8"> <!-- interpret this page as UTF-8 (Unicode character set) -->
     <!-- this one has to do with mobile initial zoom stuff -->
@@ -23,6 +24,7 @@
     <title>Document</title> <!-- tab/window/bookmark title -->
 </head>
 <!-- the body element contains the actual page -->
+
 <body>
     <!-- some HTML elements you should know -->
     Hello
@@ -41,7 +43,8 @@
     <h6>tiniest header</h6>
 
     <!-- images -->
-    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/.NET_Core_Logo.svg" width="100px" alt=".NET Core logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/.NET_Core_Logo.svg" width="100px"
+        alt=".NET Core logo">
     <!-- alt (on img) is an accessibility attribute
     (for screen readers etc ot know what the iamge is about
 and also for what placeholder text to show when the image
@@ -82,7 +85,8 @@ can't be loaded -->
     </p>
     <!-- proper way: -->
     <p class="formattingExample lastExample">
-        text <span id="firstThatsOnPage">that's</span> <em>emphasized</em> and <strong>strong</strong>. underline is still just <u>u</u>
+        text <span id="firstThatsOnPage">that's</span> <em>emphasized</em> and <strong>strong</strong>. underline is
+        still just <u>u</u>
     </p>
 
     <!-- div element -->
@@ -106,12 +110,15 @@ can't be loaded -->
 
     <!-- tables -->
     <table>
-        <thead> <!-- table header section/row -->
+        <thead>
+            <!-- table header section/row -->
             <th>City</th> <!-- table header cell -->
             <th>State</th>
         </thead>
-        <tbody> <!-- table body -->
-            <tr> <!-- table row -->
+        <tbody>
+            <!-- table body -->
+            <tr>
+                <!-- table row -->
                 <td>Seattle</td> <!-- table data cell -->
                 <td>WA</td>
             </tr>
@@ -129,11 +136,14 @@ can't be loaded -->
     <!-- also, some characters we can't really put on the page.. -->
     &lt;p&gt; (also we need it for &amp;)
     <!-- HTML has "character reference" sometimes called "HTML codes" -->
-    &nbsp; <!-- non-breaking space (the browser will not wrap the line on that space) -->
+    &nbsp;
+    <!-- non-breaking space (the browser will not wrap the line on that space) -->
     &copy;
     <!-- but we do have numerical character reference -->
-    &#1234; <!-- decimal (base-10) Unicode codepoint reference -->
-    &#x4d2; <!-- hex (base-16) Unicode codepoint reference -->
+    &#1234;
+    <!-- decimal (base-10) Unicode codepoint reference -->
+    &#x4d2;
+    <!-- hex (base-16) Unicode codepoint reference -->
 
     <!-- some elements that HTML 5 added: -->
     <!-- multimedia -->
@@ -158,6 +168,53 @@ the one it knows best -->
     </main>
     <footer></footer>
 
+    <!-- method: GET (puts form data in query string) -->
+    <!--         POST (puts form data in request body) -->
+    <!-- action: what URL to send the data to. -->
+    <form method="GET" action="#">
+        <!--  form controls go in forms, most of them
+        are "input" elements, there are others -->
+        <!-- HTML5 added several new input types -->
+        <!-- name: the key of the key-value pair sent to
+                the server for this form control -->
+        <label>
+            Checkbox:
+            <input type="checkbox" name="checkbox1">
+        </label>
 
+        <label for="box2">Checkbox:</label>
+        <input type="checkbox" id="box2" name="checkbox2">
+
+        <input type="color" name="color">
+        <input type="date">
+        <input type="datetime-local">
+        <input type="email">
+        <input type="password">
+        <input type="file">
+        <input type="hidden" name="hiddenthing" value="data">
+
+        Text: <input type="text" required minlength="4" maxlength="30" pattern="[a-z]+">
+        <!-- client-side validation -->
+        Num: <input type="number">
+        <input type="radio" name="state" value="TX">TX
+        <input type="radio" name="state" value="WA">WA
+
+        <select name="whichvalue">
+            <option value="value1"> value one</option>
+            <option value="value2" selected> value two</option>
+        </select>
+
+        <input type="submit">
+    </form>
+
+    <!-- form for google search -->
+    <form method="GET" action="https://google.com/search">
+        <!-- <label> -->
+            <!-- Search: -->
+            <input type="text" name="q" placeholder="Search">
+        <!-- </label> -->
+        <input type="submit">
+    </form>
 </body>
+
 </html>
