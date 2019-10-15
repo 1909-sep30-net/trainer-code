@@ -1,12 +1,163 @@
+<!-- every HTML 5 document needs to begin with the proper HTML 5 document type declaration -->
+<!-- (not technically an element) -->
 <!DOCTYPE html>
+
+<!-- the "root element" or "document element" - the one containing all others -->
+<!-- is the HTML element. -->
 <html lang="en">
+<!-- the head element contains metadata about the page -->
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"> <!-- interpret this page as UTF-8 (Unicode character set) -->
+    <!-- this one has to do with mobile initial zoom stuff -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- this switches off Microsoft Edge's old-IE-compatibility behaviors -->
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <meta name="author" content="Nick Escalona">
+
+    <!-- these two used to be very important for search engine results -->
+    <meta name="description" content="description of this page">
+    <meta name="keywords" content="search engine keywords for this page">
+    <!-- SEO (search engine optimization) these days is more about getting
+    other people to link to you in the right contexts -->
+
+    <title>Document</title> <!-- tab/window/bookmark title -->
 </head>
+<!-- the body element contains the actual page -->
 <body>
+    <!-- some HTML elements you should know -->
+    Hello
+
+    <!-- whitespace does not matter -->
+    <!-- if you want to change the layout,
+    that's CSS's job -->
+
+    world
+    <!-- paragraph element -->
+    <p>a paragraph</p>
+    <p>a paragraph</p>
+    <!-- section header elements -->
+    <h1>biggest header</h1>
+    <h3>medium header</h3>
+    <h6>tiniest header</h6>
+
+    <!-- images -->
+    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/.NET_Core_Logo.svg" width="100px" alt=".NET Core logo">
+    <!-- alt (on img) is an accessibility attribute
+    (for screen readers etc ot know what the iamge is about
+and also for what placeholder text to show when the image
+can't be loaded -->
+
+    <!-- XML and HTML have a "self-closing tag" syntax -->
+    <!-- looks like: <img src="asdf" /> -->
+    <img src="assets/aspnetcore.jpg" width="100px" alt="ASP.NET Core logo">
+
+    <!-- some elements are "inline", the others are "block" -->
+    <!-- block elements grab some vertical space all
+    to themselves -->
+    <!-- inline elements don't -->
+    <!-- (that default is changeable in CSS) -->
+
+    <!-- links to other pages with the "anchor" tag -->
+    <a href="https://google.com">Google</a>
+    <!-- target _blank for new tab -->
+    <!--  -->
+    <a href="https://google.com" target="_blank" rel="noopener noreferrer">Google (new tab)</a>
+
+    <!-- ordered (numbered) -->
+    <ol>
+        <li>item 1</li>
+        <li>item 2</li>
+    </ol>
+    <!-- unordered list (bullets) -->
+    <ul>
+        <li>item 1</li>
+        <li>item 2</li>
+    </ul>
+    <!-- there's also a definition list (dl) for key value pairs -->
+
+    <!-- formatting elements -->
+    <!-- old-fashioned deprecated way: -->
+    <p class="formattingExample firstExample">
+        text that's <i>italic</i> and <b>boldface</b>.
+    </p>
+    <!-- proper way: -->
+    <p class="formattingExample lastExample">
+        text <span id="firstThatsOnPage">that's</span> <em>emphasized</em> and <strong>strong</strong>. underline is still just <u>u</u>
+    </p>
+
+    <!-- div element -->
+    <!-- generic block element -->
+
+    <!-- span element -->
+    <!-- generic inline element -->
+
+    <!-- global attributes -->
+    <!-- (attributes that any element can have) -->
+    <!-- id: identifier that should be unique on the page -->
+    <!-- class: identifier that can be shared with others -->
+    <!-- you can have many classes on one element,
+    just separate them with spaces -->
+
+    <!-- we give elements IDs and classes mostly so that CSS
+    and JS can target them to give them custom appearance and behavior. -->
+
+    <br><br><br><br><br>p
+    <!-- line break -->
+
+    <!-- tables -->
+    <table>
+        <thead> <!-- table header section/row -->
+            <th>City</th> <!-- table header cell -->
+            <th>State</th>
+        </thead>
+        <tbody> <!-- table body -->
+            <tr> <!-- table row -->
+                <td>Seattle</td> <!-- table data cell -->
+                <td>WA</td>
+            </tr>
+            <tr>
+                <td>Arlington</td>
+                <td>TX</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- html gives us ways to represent special characters -->
+    <!-- the charset is UTF-8, so we can put almost any character we want: -->
+    ᠡ‍ᠯᠤᠭ᠎ᠠ
+    <!-- OK, but at least whitespace characters, we should find another way -->
+    <!-- also, some characters we can't really put on the page.. -->
+    &lt;p&gt; (also we need it for &amp;)
+    <!-- HTML has "character reference" sometimes called "HTML codes" -->
+    &nbsp; <!-- non-breaking space (the browser will not wrap the line on that space) -->
+    &copy;
+    <!-- but we do have numerical character reference -->
+    &#1234; <!-- decimal (base-10) Unicode codepoint reference -->
+    &#x4d2; <!-- hex (base-16) Unicode codepoint reference -->
+
+    <!-- some elements that HTML 5 added: -->
+    <!-- multimedia -->
+    <audio></audio>
+    <video></video>
+    <!-- audio & video both support multiple formats
+    within that one element, so the browser can choose
+the one it knows best -->
+    <canvas></canvas> <!-- "flash games" -->
+    <!-- supports "graphics primitives" -->
+
+    <!-- some other things it added:
+    a variety of "structural" elements -->
+    <header></header>
+    <nav></nav> <!-- "navbar" -->
+    <main>
+        <article>
+            <aside></aside>
+        </article>
+        <article></article>
+        <article></article>
+    </main>
+    <footer></footer>
+
 
 </body>
 </html>
