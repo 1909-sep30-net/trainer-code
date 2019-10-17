@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PokeApp.BusinessLogic.Pokemon>
+﻿@model IEnumerable<PokemonViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -7,12 +7,19 @@
 <h1>Index</h1>
 
 <p>
+    @* this is the "anchor tag helper" *@
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
+                @* another type of Razor syntax, similar to tag helpers *@
+                @* is "HTML helpers". both of them are ways to insert some dynamically
+                    generated-HTML, just two different-looking ways to type it*@
+                @* HTML helpers is the older way to do it, tag helpers are newer *@
+
+                @* i might have many views using this Pokemon model. *@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
@@ -24,31 +31,39 @@
             <th>
                 @Html.DisplayNameFor(model => model.Weight)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Types)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Height)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Weight)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Height)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weight)
+            </td>
+            <td>
+                @* concatenate the types into one string *@
+                @string.Join(", ", item.Types)
+            </td>
+            <td>
+                @* HTML helper ActionLink is a direct alternative to anchor tag helper *@
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
         }
     </tbody>
 </table>

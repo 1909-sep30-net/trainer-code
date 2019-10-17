@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PokeApp.BusinessLogic;
+using PokeApp.WebApp.Models;
 
 namespace PokeApp.WebApp.Controllers
 {
@@ -25,7 +26,16 @@ namespace PokeApp.WebApp.Controllers
             // i will use "constructor injection pattern"
             IEnumerable<Pokemon> pokemon = await _repository.GetAllPokemonAsync();
 
-            return View(pokemon);
+            var viewModels = pokemon.Select(p => new PokemonViewModel
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Height = p.Height,
+                Weight = p.Weight,
+                Types = p.Types.Select(t => t.Name).ToList()
+            });
+
+            return View(viewModels);
         }
 
         // GET: Pokemon/Details/5
