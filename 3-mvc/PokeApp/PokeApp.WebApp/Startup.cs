@@ -28,7 +28,7 @@ namespace PokeApp.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             // we get the connection string from runtime configuration
-            string connectionString = "";
+            string connectionString = Configuration.GetConnectionString("PokeDb");
 
             // among the services you register for DI (dependency injection)
             // should be your DbContext.
