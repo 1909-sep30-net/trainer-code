@@ -1,13 +1,15 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PokeApp.Data;
 
 namespace PokeApp.WebApp
 {
@@ -18,11 +20,23 @@ namespace PokeApp.WebApp
             Configuration = configuration;
         }
 
+        // in ASP.NET 
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // we get the connection string from runtime configuration
+            string connectionString = "";
+
+            // among the services you register for DI (dependency injection)
+            // should be your DbContext.
+            services.AddDbContext<PokemonDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+            });
+
             services.AddControllersWithViews();
         }
 
