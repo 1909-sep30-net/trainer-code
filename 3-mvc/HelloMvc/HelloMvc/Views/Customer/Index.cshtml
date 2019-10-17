@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Customer>
+
+@* what namespaces are visible from a view is governed by any @using directives
+    , but mostly by _ViewImports *@
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@* two kinds of views: strongly-typed and weakly/loosely-typed *@
+@* without the @model directive, this would be a weakly-typed view *@
+@* that @model directive enforces that this view accepts exactly that type as its model *@
+
+@* for wekaly-typed views, the Model property is of type "dynamic" *@
+@* this is a special C# type which turns off all compile-time type checking. *@
+@* it pretty much works like a JS object *@
+
+<h1>Index</h1>
+
+@* this is a Razor comment *@
+@* each instance of a view can be passed one object containing
+    all the data it wants to display. that is called the "model" of the view
+    and it's accessible here as "Model" *@
+
+@* let's assume that Model is a List<Customer> *@
+
+<table>
+    <thead>
+    <th>Id</th>
+    <th>Name</th>
+    </thead>
+    <tbody>
+        @* Model is null if you don't pass anything from the action method *@
+        @foreach (Customer customer in Model)
+        {
+            var x = 12;
+            <tr>
+                @* when you do @(1+1) - that's "Razor expression" *@
+                @* the C# expression after the @ is evaluated, and then converted to a string *@
+                @* the stirng is HTML-escaped, and then placed on the page *@
+                <td>@customer.Id</td>
+                <td>@customer.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@* in addition to Razor expressions, we have Razor blocks with @{ } *@
+@*   these do not directly affect the HTML. these are just for C# logic *@
+
+@{
+    // in here, we write arbitrary C#
+    // (maybe to compute some value that will be used in a Razor expression lower down)
+
+    // apart from @foreach, we have Razor versions of every C# control flow statement
+    // like, if, else, switch, while, for, etc.
+}
+
+@* we call the thing that does the rendering the "Razor view engine" and all of this
+    stuff as "Razor syntax" *@

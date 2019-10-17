@@ -24,6 +24,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="Index">Customers</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -37,6 +40,10 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
+            @* another form of Razor syntax is called "tag helpers" *@
+            @* we write internal links (links within the web site) using this tag helper *@
+            @* so that we can change our URL scheme in the Startup file and all our pages
+                automatically switch to the new correct links *@
             &copy; 2019 - HelloMvc - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
