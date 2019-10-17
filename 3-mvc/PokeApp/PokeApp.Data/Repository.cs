@@ -38,9 +38,24 @@ namespace PokeApp.Data
             });
         }
 
-        public Task AddPokemonAsync()
+        public async Task AddPokemonAsync(BusinessLogic.Pokemon pokemon)
         {
-            throw new NotImplementedException();
+            // missing types
+            var entity = new Pokemon
+            {
+                Name = pokemon.Name,
+                Height = pokemon.Height,
+                Weight = pokemon.Weight
+            };
+
+            // if name is already in use....
+            if (await _context.Pokemon.AnyAsync(p => p.Name == entity.Name))
+            {
+                throw new InvalidOperationException("Already exists");
+            }
+
+            _context.Add(entity);
+            await _context.SaveChangesAsync();
         }
     }
 }

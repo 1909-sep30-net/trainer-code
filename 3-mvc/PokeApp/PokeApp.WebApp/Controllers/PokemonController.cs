@@ -53,11 +53,45 @@ namespace PokeApp.WebApp.Controllers
         // POST: Pokemon/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(PokemonViewModel viewModel)
         {
             try
             {
-                // TODO: Add insert logic here
+                // just like how strongly typed view is the better version
+                // of weakly-typed view, we have the option
+                // of "model binding" instead of this FormCollection.
+
+                //var pokemon = new Pokemon
+                //{
+                //    Name = collection["Name"],
+                //    Height = int.Parse(collection["Height"]),
+                //    Weight = int.Parse(collection["Weight"]),
+                //    Types = 
+                //}
+
+                // ModelState works with model binding to give us automatic 
+                // server-side validation of any of those attributes on the model class.
+                // (e.g. Required, Range, RegularExpression)
+                if (!ModelState.IsValid)
+                {
+                    // server-side validation failure, return a new form to the
+                    // user, but for convenience, fill in his previous (wrong) data
+                    return View(viewModel);
+                    // also, if ModelState contains errors when we render that form,
+                    // the validation tag helpers will get filled in with error messages
+                }
+
+                var pokemon = new Pokemon
+                {
+                    Id = viewModel.Id,
+                    Name = viewModel.Name,
+                    Height = viewModel.Height,
+                    Weight = viewModel.Weight
+                    // missing types!
+                };
+
+                // missing exception handling
+                await _repository.AddPokemonAsync(pokemon);
 
                 return RedirectToAction(nameof(Index));
             }

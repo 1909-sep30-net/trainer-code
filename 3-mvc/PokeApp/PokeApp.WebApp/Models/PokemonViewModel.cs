@@ -21,12 +21,18 @@ namespace PokeApp.WebApp.Models
         //[DisplayFormat(] // there are attributes like Display and DisplayFormat
         // to modify here in this one place how values in this property will be displayed in some view
         // (when we use the Html.DisplayFor HTML helper!)
+        [Required] // can't be null or empty string
         public string Name { get; set; }
 
+        [Required]
+        [Range(0, int.MaxValue)]
         public int Height { get; set; }
 
+        [Required]
+        [Range(0, int.MaxValue)]
         public int Weight { get; set; }
 
+        //[Required]
         public List<string> Types { get; set; }
     }
 }

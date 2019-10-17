@@ -8,6 +8,6 @@ namespace PokeApp.BusinessLogic
         // includes types
         Task<IEnumerable<Pokemon>> GetAllPokemonAsync();
 
-        Task AddPokemonAsync();
+        Task AddPokemonAsync(Pokemon pokemon);
     }
 }
