@@ -38,7 +38,7 @@ namespace PokeApp.Data
             });
         }
 
-        public void AddPokemon()
+        public Task AddPokemonAsync()
         {
             throw new NotImplementedException();
         }

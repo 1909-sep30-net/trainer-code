@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PokeApp.BusinessLogic;
 using PokeApp.Data;
 
 namespace PokeApp.WebApp
@@ -36,6 +37,24 @@ namespace PokeApp.WebApp
             {
                 options.UseSqlServer(connectionString);
             });
+
+            // this registers the Repository class under the "name" of IRepository.
+            // aka: "if anyone needs an IRepository, make a Repository."
+            services.AddScoped<IRepository, Repository>();
+
+            // if class A needs class B to do its job, two options:
+            // 1. somewhere in class A, we say "var b = new B()" and proceed
+            // 2. A's constructor accepts an instance of B.
+                // even better: have interface IB, accept in ctor any instance under IB
+
+            // dependency inversion principle: classes shouldn't depend on each other,
+            // instead should depend on interfaces
+
+            // "new is glue": if a class "news" another class, they are pretty inextricable,
+            //     too tightly coupled
+
+            // we have this thing called "dependency injection container" that makes dealing with
+            // option #2 easier.
 
             services.AddControllersWithViews();
         }
