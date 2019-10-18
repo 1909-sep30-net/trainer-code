@@ -45,7 +45,7 @@ namespace PokeApp.WebApp
             // if class A needs class B to do its job, two options:
             // 1. somewhere in class A, we say "var b = new B()" and proceed
             // 2. A's constructor accepts an instance of B.
-                // even better: have interface IB, accept in ctor any instance under IB
+            // even better: have interface IB, accept in ctor any instance under IB
 
             // dependency inversion principle: classes shouldn't depend on each other,
             // instead should depend on interfaces
@@ -55,6 +55,18 @@ namespace PokeApp.WebApp
 
             // we have this thing called "dependency injection container" that makes dealing with
             // option #2 easier.
+
+            // there are three "lifetimes" for a service that you register here
+            // singleton means: the whole lifetime of the app, there is only one instance of that service.
+            // scoped means: one instance per "scope" - each HTTP request lifecycle is one scope
+            // transient means: every time service is requested, you get a new instance
+
+            // by default, DbContexts are scoped. (therefore, anything that depends on them
+            // must be either scoped or transient)
+
+            services.AddSingleton<SingletonGuidService>();
+            services.AddScoped<ScopedGuidService>();
+            services.AddTransient<TransientGuidService>();
 
             services.AddControllersWithViews();
         }

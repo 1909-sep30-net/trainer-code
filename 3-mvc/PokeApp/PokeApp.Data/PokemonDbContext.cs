@@ -59,31 +59,37 @@ namespace PokeApp.Data
         {
             modelBuilder.Entity<Pokemon>(entity =>
             {
-                //entity.HasKey(e => e.Id); // unneeded because of convention
+                //entity.HasKey(p => p.Id); // unneeded because of convention
 
-                entity.Property(e => e.Id)
+                entity.Property(p => p.Id)
                     .UseIdentityColumn(); // IDENTITY(1,1)
 
-                entity.Property(e => e.Name)
+                entity.Property(p => p.Name)
                     .IsRequired() // NOT NULL
                     .HasMaxLength(64); // NVARCHAR(64)
 
-                entity.Property(e => e.Height)
+                entity.Property(p => p.Height)
                     .IsRequired();
 
-                entity.Property(e => e.Weight)
+                entity.Property(p => p.Weight)
                     .IsRequired();
-                    //.HasColumnType("INT"); // already assumed by convention
+                //.HasColumnType("INT"); // already assumed by convention
+
+                entity.HasIndex(p => p.Name)
+                    .IsUnique(); // UNIQUE
             });
 
             modelBuilder.Entity<PokemonType>(entity =>
             {
-                entity.Property(e => e.Id)
+                entity.Property(t => t.Id)
                     .UseIdentityColumn();
 
-                entity.Property(e => e.Name)
+                entity.Property(t => t.Name)
                     .IsRequired()
                     .HasMaxLength(64);
+
+                entity.HasIndex(p => p.Name)
+                    .IsUnique(); // UNIQUE
             });
 
             modelBuilder.Entity<PokemonTypeJoin>(entity =>

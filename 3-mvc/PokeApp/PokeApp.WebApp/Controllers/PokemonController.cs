@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using PokeApp.BusinessLogic;
 using PokeApp.WebApp.Models;
 
@@ -109,6 +110,20 @@ namespace PokeApp.WebApp.Controllers
                 await _repository.AddPokemonAsync(pokemon);
 
                 return RedirectToAction(nameof(Index));
+            }
+            catch (InvalidOperationException ex)
+            {
+                // when we run our own logic for server-side validation
+                // we can add our own errors to that modelstate just like the validationattributes do.
+                // why? because they will be put onto the form when we return it.
+                // first parameter: which field has the problem
+                //       ("" to put the error in the "summary" at the top)
+                ModelState.AddModelError("Name", ex.Message);
+
+                var types = await _repository.GetAllTypesAsync();
+                viewModel.Types = types.Select(t => t.Name).ToList();
+
+                return View(viewModel);
             }
             catch
             {

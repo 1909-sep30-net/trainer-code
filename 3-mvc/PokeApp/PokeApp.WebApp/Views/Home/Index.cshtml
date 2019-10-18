@@ -6,3 +6,31 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<div>
+    @* ViewBag is another interface to the same data store as ViewData *@
+    @* ViewBag is dynamic, and anything you pull out of it is also dynamic *@
+
+    Singleton @(((PokeApp.BusinessLogic.GuidService)ViewData["singleton"]).Guid) -
+    @ViewBag.singleton.Created
+    <br />
+    Scoped @ViewBag.scoped.Guid -
+    @ViewBag.scoped.Created
+    <br />
+    Transient @ViewBag.transient.Guid -
+    @ViewBag.transient.Created
+</div>
+
+<div>
+    @* ViewBag is another interface to the same data store as ViewData *@
+    @* ViewBag is dynamic, and anything you pull out of it is also dynamic *@
+
+    Singleton2 @(((PokeApp.BusinessLogic.GuidService)ViewData["singleton2"]).Guid) -
+    @ViewBag.singleton2.Created
+    <br />
+    Scoped2 @ViewBag.scoped2.Guid -
+    @ViewBag.scoped2.Created
+    <br />
+    Transient2 @ViewBag.transient2.Guid -
+    @ViewBag.transient2.Created
+</div>

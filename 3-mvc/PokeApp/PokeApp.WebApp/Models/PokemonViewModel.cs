@@ -24,6 +24,12 @@ namespace PokeApp.WebApp.Models
         [Required] // can't be null or empty string
         public string Name { get; set; }
 
+        // in ASP.NET, client-side validation is driven by DataAnnotations attributes like these
+        //   in combination with jquery Validation library, and the tag helpers for input and validation span.
+
+        // server-side validation is driven by the same properties, which are checked during model binding
+        // and erors are put into ModelState. you do have to write the code ot check ModelState.
+
         [Required]
         [Range(0, int.MaxValue)]
         public int Height { get; set; }
