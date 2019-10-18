@@ -9,5 +9,9 @@ namespace PokeApp.BusinessLogic
         Task<IEnumerable<Pokemon>> GetAllPokemonAsync();
 
         Task AddPokemonAsync(Pokemon pokemon);
+
+        Task<IEnumerable<PokemonType>> GetAllTypesAsync();
+
+        Task<PokemonType> GetTypeByNameAsync(string name);
     }
 }

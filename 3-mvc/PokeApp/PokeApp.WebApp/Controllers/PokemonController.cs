@@ -45,9 +45,16 @@ namespace PokeApp.WebApp.Controllers
         }
 
         // GET: Pokemon/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            return View();
+            var types = await _repository.GetAllTypesAsync();
+
+            var viewModel = new PokemonViewModel
+            {
+                Types = types.Select(t => t.Name).ToList()
+            };
+
+            return View(viewModel);
         }
 
         // POST: Pokemon/Create
@@ -74,6 +81,9 @@ namespace PokeApp.WebApp.Controllers
                 // (e.g. Required, Range, RegularExpression)
                 if (!ModelState.IsValid)
                 {
+                    var types = await _repository.GetAllTypesAsync();
+                    viewModel.Types = types.Select(t => t.Name).ToList();
+
                     // server-side validation failure, return a new form to the
                     // user, but for convenience, fill in his previous (wrong) data
                     return View(viewModel);
@@ -86,9 +96,14 @@ namespace PokeApp.WebApp.Controllers
                     Id = viewModel.Id,
                     Name = viewModel.Name,
                     Height = viewModel.Height,
-                    Weight = viewModel.Weight
-                    // missing types!
+                    Weight = viewModel.Weight,
+                    Types = new HashSet<PokemonType>()
                 };
+
+                foreach (var s in viewModel.Types)
+                {
+                    pokemon.Types.Add(await _repository.GetTypeByNameAsync(s));
+                }
 
                 // missing exception handling
                 await _repository.AddPokemonAsync(pokemon);
@@ -97,7 +112,10 @@ namespace PokeApp.WebApp.Controllers
             }
             catch
             {
-                return View();
+                var types = await _repository.GetAllTypesAsync();
+                viewModel.Types = types.Select(t => t.Name).ToList();
+
+                return View(viewModel);
             }
         }
 

@@ -38,14 +38,15 @@ namespace PokeApp.Data
             });
         }
 
+        // if types are included, they must have IDs
         public async Task AddPokemonAsync(BusinessLogic.Pokemon pokemon)
         {
-            // missing types
             var entity = new Pokemon
             {
                 Name = pokemon.Name,
                 Height = pokemon.Height,
-                Weight = pokemon.Weight
+                Weight = pokemon.Weight,
+                PokemonTypeJoins = pokemon.Types.Select(t => new PokemonTypeJoin { TypeId = t.Id }).ToList()
             };
 
             // if name is already in use....
@@ -56,6 +57,27 @@ namespace PokeApp.Data
 
             _context.Add(entity);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<BusinessLogic.PokemonType>> GetAllTypesAsync()
+        {
+            var entities = await _context.PokemonType.ToListAsync();
+            return entities.Select(t => new BusinessLogic.PokemonType
+            {
+                 Id = t.Id,
+                 Name = t.Name
+            });
+        }
+
+        public async Task<BusinessLogic.PokemonType> GetTypeByNameAsync(string name)
+        {
+            var entity = await _context.PokemonType.FirstAsync(t => t.Name == name);
+
+            return new BusinessLogic.PokemonType
+            {
+                Id = entity.Id,
+                Name = entity.Name
+            };
         }
     }
 }
