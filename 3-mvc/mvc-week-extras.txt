@@ -33,25 +33,29 @@ then `ILogger` service is automatically registered and can be requested by contr
 
 
 ef example:
+// this example's separation of concerns is not great because
+// business rules (when an order is placed, inventory decreases)
+// is being coded in the data access layer.
 public void PlaceOrder(Order order)
 {
-    // check the location's inventory to make sure this will work;
+    // omitted: check the location's inventory to make sure this will work,
     // check that all the entities really exist, etc.
 
-    var dbCustomer = _context.Customers.Find(order.customer.Id);
+    var dbCustomer = _context.Customers.Find(order.Customer.Id);
     var dbLocation = _context.Locations
         .Include(l => l.Inventories)
-        .ThenInclude(i => i.Product)
-        .First(order.Location.Id);
+            .ThenInclude(i => i.Product)
+        .First(l => l.Id == order.Location.Id);
 
     var dbOrder = new Data.Order
     {
         Customer = dbCustomer,
         Location = dbLocation
     };
-    dbOrder.OrderLines.AddRange(order.Products.Select(p => new Data.OrderLine {
-        Product = _context.Products.Find(p.Key.Id)
-        Quantity = p.Value
+    // a dictionary is a sequence of key-value pairs
+    dbOrder.OrderLines.AddRange(order.Products.Select(pq => new Data.OrderLine {
+        ProductId = _context.Products.Find(pq.Key.Id)
+        Quantity = pq.Value
     }));
 
     // update the dbLocation's Inventory stuff:
@@ -61,5 +65,9 @@ public void PlaceOrder(Order order)
         inventory.Quantity -= orderLine.Quantity;
     }
 
+    // add all new reachable entities (the order and the order-lines)
+    _context.Add(dbOrder);
+
+    // apply all these changes as one transaction, not piece by piece
     _context.SaveChanges();
 }
