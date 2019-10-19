@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -68,7 +69,13 @@ namespace PokeApp.WebApp
             services.AddScoped<ScopedGuidService>();
             services.AddTransient<TransientGuidService>();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(config =>
+            {
+                //config.Filters.Add(new AuthorizeFilter()); // example of adding filter globally
+            });
+
+            // in this method we configure middleware that we want any non-default stuff on.
+            // e.g.: define authentication schemes.
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
