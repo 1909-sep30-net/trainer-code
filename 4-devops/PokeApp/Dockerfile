@@ -29,7 +29,7 @@ WORKDIR /app
 
 COPY --from=build /app/publish ./
 
-ENV ASPNETCORE_URLS http://+:80
+# ENV ASPNETCORE_URLS http://+:80
 
 CMD [ "dotnet", "PokeApp.WebApp.dll" ]
 # this final image does not have the SDK, nor the source code,
