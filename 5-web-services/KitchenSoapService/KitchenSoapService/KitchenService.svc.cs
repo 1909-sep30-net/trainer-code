@@ -40,5 +40,17 @@ namespace KitchenSoapService
             }
             return result;
         }
+
+        public void UpgradeDomsMac(Mac DomsMac)
+        {
+            try
+            {
+                DomsMac.TryUpgrade();
+            }
+            catch
+            {
+                throw new Exception("Sorry, cant do that because it's a mac");
+            }
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace KitchenSoapService
     [ServiceContract]
     public interface IKitchenService
     {
-        [OperationContract]
+        [OperationContract(Name = "LookInsideFridge")]
         List<FridgeItem> OpenFridge();
 
         [OperationContract]

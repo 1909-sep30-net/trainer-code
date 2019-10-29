@@ -71,6 +71,7 @@
     <Compile Include="KitchenService.svc.cs">
       <DependentUpon>KitchenService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Mac.cs" />
     <Compile Include="Service1.svc.cs">
       <DependentUpon>Service1.svc</DependentUpon>
     </Compile>
