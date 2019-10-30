@@ -39,6 +39,15 @@ namespace KitchenRestService.Api.Controllers
         [HttpPost]
         public ActionResult Post([FromBody, Bind("Name,Expiration")] FridgeItem item)
         {
+            // we don't need this, because with [ApiController] attribute,
+            // we automatically do this on every action method:
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest("all error infos"); // 400, client error
+            //}
+
+            // other validation besides data annotations, you'll need to return BadRequest manually.
+
             // the client can't set the ID
             var newId = _fridge.Items.Max(i => i.Id) + 1;
 
@@ -55,14 +64,34 @@ namespace KitchenRestService.Api.Controllers
 
         // PUT: api/FridgeItems/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] FridgeItem item)
         {
+            // ignore id in the body
+            if (_fridge.Items.FirstOrDefault(i => i.Id == id) is FridgeItem oldItem)
+            {
+                if (oldItem.Expiration.Date != item.Expiration.Date)
+                {
+                    // 403 forbidden (not authorized to make that change)
+                    return StatusCode(StatusCodes.Status403Forbidden);
+                }
+                oldItem.Name = item.Name;
+                return NoContent(); // 204 success and nothing is in the body
+            }
+            // not found (404)
+            return NotFound();
         }
 
         // DELETE: api/FridgeItems/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            if (_fridge.Items.FirstOrDefault(i => i.Id == id) is FridgeItem oldItem)
+            {
+                _fridge.Items.Remove(oldItem);
+                return NoContent();
+            }
+            // not found (404)
+            return NotFound();
         }
     }
 }
