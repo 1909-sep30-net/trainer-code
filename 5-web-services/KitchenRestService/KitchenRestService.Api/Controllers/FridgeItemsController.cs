@@ -73,6 +73,7 @@ namespace KitchenRestService.Api.Controllers
                 {
                     // 403 forbidden (not authorized to make that change)
                     return StatusCode(StatusCodes.Status403Forbidden);
+                    return Forbid();
                 }
                 oldItem.Name = item.Name;
                 return NoContent(); // 204 success and nothing is in the body
