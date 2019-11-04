@@ -17,9 +17,32 @@ document.addEventListener('DOMContentLoaded', function () {
     let display = document.getElementById('jokeDisplay');
 
     button.addEventListener('click', function () {
-        getJokeWithXhr(display);
+        // getJokeWithXhr(display);
+        getJokeWithFetch(display);
     });
 });
+
+// a Promise is an object
+// that represents some result that can either
+// succeed and arrive ("resolve")
+// or fail with some error ("reject")
+
+// when you have a Promise, you call one of two methods on it
+// .then(success, fail)   -> for success or failure
+// .catch(fail)           -> for failure
+
+function getJokeWithFetch(display) {
+    // fetch returns a promise of the response headers
+    fetch('http://api.icndb.com/jokes/random')
+        .then(res => res.json()) // .json returns a promise of the reponse body parsed from json
+        .then(obj => {
+            display.innerHTML = obj.value.joke;
+        })
+        .catch(err => console.error(err));
+}
+
+// challenge: look up "promisification"
+// and write your own "fetch" based on XHR
 
 function getJokeWithXhr(display) {
     // make request to api
