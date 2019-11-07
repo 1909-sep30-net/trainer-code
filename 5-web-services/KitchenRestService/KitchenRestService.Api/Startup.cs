@@ -24,6 +24,18 @@ namespace KitchenRestService.Api
         {
             services.AddSingleton<Fridge>();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAngular",
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200")
+                        .AllowAnyMethod() // not just GET and POST, but allow all methods
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                });
+            });
+
             services.AddControllers(options =>
             {
                 options.ReturnHttpNotAcceptable = true;
@@ -65,6 +77,8 @@ namespace KitchenRestService.Api
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors("AllowAngular");
 
             app.UseEndpoints(endpoints =>
             {
