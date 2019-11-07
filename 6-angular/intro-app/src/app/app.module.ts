@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FridgeComponent } from './fridge/fridge.component';
+import { HttpClientModule } from '@angular/common/http';
 
 // this is a decorator
 // decorators are preview TS syntax
@@ -26,7 +27,8 @@ import { FridgeComponent } from './fridge/fridge.component';
   // this is "NG import" that connect NG modules
   imports: [
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule
   ],
   // we can register services for DI here (scoped to this module)
   providers: [],
