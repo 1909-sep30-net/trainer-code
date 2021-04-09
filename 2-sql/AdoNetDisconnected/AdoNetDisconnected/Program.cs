@@ -29,6 +29,7 @@ namespace AdoNetDisconnected
 
             // major security issue SQL injection - user input should never be trusted
             // and put directly into some SQL command
+            // e.g. problem input: "1 = 1; DROP TABLE Pokemon;"
 
             try
             {
